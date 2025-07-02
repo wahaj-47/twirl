@@ -56,7 +56,7 @@ function BallAndCollisions({
           cam.current?.lookAt(0, 0, 0)
         )
       ),
-    []
+    [api.position, v]
   );
   return (
     <>
@@ -75,43 +75,38 @@ function BallAndCollisions({
   );
 }
 
-const Block = forwardRef(
-  (
-    {
-      shake = 0,
-      args = [1, 1.5, 4],
-      vec = new THREE.Vector3(),
-      ...props
-    }: { shake?: number; vec?: THREE.Vector3 } & BoxProps,
-    ref
-  ) => {
-    const group = useRef<THREE.Group>(null);
-    const [block, api] = useBox<THREE.Mesh>(() => ({
-      args,
-      ...props,
-      onCollide: (e) => (shake += e.contact.impactVelocity / 12.5),
-    }));
-    useFrame(() =>
-      group.current?.position.lerp(
-        vec.set(0, (shake = THREE.MathUtils.lerp(shake, 0, 0.1)), 0),
-        0.2
-      )
-    );
-    useImperativeHandle(ref, () => api, [api]);
-    return (
-      <group ref={group}>
-        <RoundedBox ref={block} args={args} radius={0.4} smoothness={10}>
-          <meshPhysicalMaterial
-            transmission={1}
-            roughness={0}
-            thickness={3}
-            envMapIntensity={4}
-          />
-        </RoundedBox>
-      </group>
-    );
-  }
-);
+type BlockProps = { shake?: number; vec?: THREE.Vector3 } & BoxProps;
+
+const Block = forwardRef<PublicApi, BlockProps>(function Block(
+  { shake = 0, args = [1, 1.5, 4], vec = new THREE.Vector3(), ...props },
+  ref
+) {
+  const group = useRef<THREE.Group>(null);
+  const [block, api] = useBox<THREE.Mesh>(() => ({
+    args,
+    ...props,
+    onCollide: (e) => (shake += e.contact.impactVelocity / 12.5),
+  }));
+  useFrame(() =>
+    group.current?.position.lerp(
+      vec.set(0, (shake = THREE.MathUtils.lerp(shake, 0, 0.1)), 0),
+      0.2
+    )
+  );
+  useImperativeHandle(ref, () => api, [api]);
+  return (
+    <group ref={group}>
+      <RoundedBox ref={block} args={args} radius={0.4} smoothness={10}>
+        <meshPhysicalMaterial
+          transmission={1}
+          roughness={0}
+          thickness={3}
+          envMapIntensity={4}
+        />
+      </RoundedBox>
+    </group>
+  );
+});
 
 function Paddle({ args = [5, 1.5, 4] }: { args?: [number, number, number] }) {
   const api = useRef<PublicApi>(null);

@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 
-function flatten(obj: any): string[] {
+function flatten(obj: unknown): string[] {
   if (obj == null) return [];
 
   if (

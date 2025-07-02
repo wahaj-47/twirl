@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ConsoleMethod, useLogsContext } from "./LogContext";
+import { useLogsContext } from "./LogContext";
 import { useSearch } from "@/app/hooks/useSearch";
 import { SearchInput } from "../search/SearchInput";
 import classNames from "classnames";

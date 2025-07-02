@@ -24,13 +24,14 @@ export function LogsContextProvider({
 
   useEffect(() => {
     const methods: ConsoleMethod[] = ["log", "warn", "error", "info", "debug"];
-    const original: Partial<Record<ConsoleMethod, (...args: any[]) => void>> =
-      {};
+    const original: Partial<
+      Record<ConsoleMethod, (...args: unknown[]) => void>
+    > = {};
 
     methods.forEach((method) => {
       original[method] = console[method];
 
-      console[method] = (...args: any[]) => {
+      console[method] = (...args: unknown[]) => {
         const formatted = args
           .map((arg) =>
             typeof arg === "object" ? JSON.stringify(arg, null, 2) : String(arg)

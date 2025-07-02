@@ -32,7 +32,7 @@ export function Dropdown({ menu }: { menu: Menu }) {
         button.click();
       }
     }, timeoutDuration);
-  }, []);
+  }, [hasDropdownParent]);
 
   const btnLeave = useCallback(() => {
     const button = btnRef.current;
@@ -42,13 +42,13 @@ export function Dropdown({ menu }: { menu: Menu }) {
       if ("hover" in button.dataset) return;
       if (!("hover" in panel.dataset)) button.click();
     }, timeoutDuration);
-  }, []);
+  }, [hasDropdownParent]);
 
   const panelEnter = useCallback(() => {
     const panel = panelRef.current;
     if (!panel || !hasDropdownParent) return;
     panel.setAttribute("data-hover", "");
-  }, []);
+  }, [hasDropdownParent]);
 
   const panelLeave = useCallback(() => {
     const button = btnRef.current;
@@ -58,7 +58,7 @@ export function Dropdown({ menu }: { menu: Menu }) {
     setTimeout(() => {
       if (!("hover" in button.dataset)) button.click();
     }, timeoutDuration);
-  }, []);
+  }, [hasDropdownParent]);
 
   const btnClass = classNames(
     "flex capitalize items-center justify-between text-xs w-full px-4 py-[2px] data-hover:bg-gray-51 data-open:bg-blue-51 focus:outline-none",

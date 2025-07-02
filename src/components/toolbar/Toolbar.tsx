@@ -1,6 +1,5 @@
 "use client";
 
-import { useRef } from "react";
 import { menus } from "./data";
 import { Dropdown } from "./Dropdown";
 

@@ -14,16 +14,14 @@ const components = {
       <div className="h-full p-[20px] bg-gray-951">{props.params.title}</div>
     );
   },
-  viewport: (props: IDockviewPanelProps<{ title: string }>) => {
-    return <Pinball></Pinball>;
-  },
+  pinball: Pinball,
 };
 
 export default function RootDockview() {
   const onReady = (event: DockviewReadyEvent) => {
     event.api.addPanel({
       id: "panel_1",
-      component: "viewport",
+      component: "pinball",
     });
   };
 
